@@ -3,6 +3,7 @@
 from typing import Callable, List, Tuple, Optional
 from random import choices, randint, randrange, random
 from functools import partial
+import time
 
 from collections import namedtuple
 
@@ -12,6 +13,9 @@ Population = List[Genome]
 
 
 Thing = namedtuple('Thing', ['name', 'value', 'weight'])
+
+startTime=0.0
+endTime=0.0
 
 
 # The fitness function model will receive a genome 🧬,
@@ -25,10 +29,10 @@ MutationFunction = Callable[[Genome], Genome]
 
 
 things = [
-    Thing('💻', 500, 2200),
+    Thing('💻', 40, 333),
     Thing('🎧', 150, 160),
     Thing('☕', 60, 350),
-    Thing('📔', 40, 333),
+    Thing('📔', 500, 2220),
     Thing('♨', 30, 192)
 ]
 
@@ -99,6 +103,10 @@ def runEvolution(
         generation_limit: int = 100,) -> Tuple[Population, int]:
 
     population = populate_func()
+
+    global startTime,endTime
+
+    startTime= time.time()
     for i in range(generation_limit):
         # We need to sort first so the first solutions will be
         # The more likely to have good genes
@@ -136,7 +144,7 @@ def runEvolution(
             key=lambda genome: fitness_func(genome),
             reverse=True
         )
-
+    endTime= time.time()
     return population, i
 
 
@@ -162,3 +170,6 @@ def genomeToThing(genome: Genome, things: List[Thing]) -> List[Thing]:
 
 print(f"number of generations:{generations}")
 print(f"Best solution was: {genomeToThing(population[0],things)}")
+
+totalTime= endTime-startTime
+print(f"Time taken was: {totalTime}")
