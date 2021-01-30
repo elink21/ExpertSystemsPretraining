@@ -1,0 +1,2 @@
+r(X,Y,Z):-Res is X+Y, X+Y is Z.
+
